@@ -1,0 +1,43 @@
+name: Deploy Node.js App to HostGator
+
+on:
+  push:
+    branches:
+      - main # ou master
+  workflow_dispatch: # Permite rodar manualmente
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download dos Arquivos (Checkout)
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalar Dependências
+        run: npm install
+
+      - name: Build do Projeto (Compilação)
+        run: npm run build
+
+      - name: Preparar Pasta de Deploy
+        run: |
+          mkdir deploy_build
+          cp -r dist deploy_build/
+          cp app.js deploy_build/
+          cp package.json deploy_build/
+          cp package-lock.json deploy_build/
+
+      - name: Enviar para HostGator via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy_build/
+          server-dir: ./ # Mude isso para a pasta correta do seu app. Ex: /meu-app-node/

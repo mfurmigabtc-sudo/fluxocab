@@ -59,3 +59,21 @@ Se você não quiser configurar um "App Node.js" no cPanel, criamos uma versão 
    $dbname = "seu_nome_bd";
    ```
 6. Acesse o seu site! Na tela de login, clique no link vermelho na parte inferior para criar as tabelas do banco automaticamente. Depois é só fazer login e usar.
+
+## OPÇÃO 3: Deploy Automático via GitHub Actions (Avançado)
+
+Se você hospedar o código deste projeto no **GitHub**, criamos rotinas automatizadas para que toda vez que você salvar (push) as modificações no GitHub, ele automaticamente invie a nova versão para sua conta HostGator por FTP.
+
+**Como configurar:**
+1. Envie seu código inicial para um repositório no GitHub.
+2. No seu repositório no GitHub, vá em **Settings** > **Secrets and variables** > **Actions**.
+3. Clique em **"New repository secret"** e crie 3 Segredos (exatamente com estes nomes em maiúsculo):
+   - `FTP_SERVER`: Seu servidor FTP (ex: `ftp.seudominio.com.br` ou o IP do seu cPanel).
+   - `FTP_USERNAME`: Seu usuário de FTP da HostGator.
+   - `FTP_PASSWORD`: Sua senha de FTP da HostGator.
+
+**Dois fluxos foram configurados:**
+- Se você for usar a **Versão Node.js** (Opção 1): O arquivo está em `.github/workflows/deploy-node.yml`. Edite este arquivo e mude a linha `server-dir: ./` para a pasta onde você configurou o App Node.js no cPanel.
+- Se você for usar a **Versão PHP** (Opção 2): O arquivo está em `.github/workflows/deploy-php.yml`. Ele vai pegar sua pasta `versao_php/` e jogar dentro de `public_html/`.
+
+Após configurar os *Secrets* no Github, sempre que você mandar novidades para a nuvem no GitHub (na branch *main*), o servidor de deploy jogará os arquivos atualizados na sua HostGator automaticamente!

@@ -1,0 +1,32 @@
+name: Deploy PHP App to HostGator
+
+on:
+  push:
+    branches:
+      - main # ou master
+      - versao-php
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download dos Arquivos (Checkout)
+        uses: actions/checkout@v3
+
+      - name: Preparar Arquivos PHP
+        run: |
+          mkdir deploy_php
+          cp -r versao_php/* deploy_php/
+          # Copia a logo da pasta public para a pasta onde os arquivos PHP ficarão
+          cp public/logo_CAB.png deploy_php/ || true
+
+      - name: Enviar para HostGator via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./deploy_php/
+          server-dir: ./public_html/ # Caminho public_html do seu domínio na HostGator
