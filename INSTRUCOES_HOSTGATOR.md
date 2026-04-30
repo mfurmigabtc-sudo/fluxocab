@@ -60,7 +60,24 @@ Se você não quiser configurar um "App Node.js" no cPanel, criamos uma versão 
    ```
 6. Acesse o seu site! Na tela de login, clique no link vermelho na parte inferior para criar as tabelas do banco automaticamente. Depois é só fazer login e usar.
 
-## OPÇÃO 3: Deploy Automático via GitHub Actions (Avançado)
+## OPÇÃO 4: Deploy Automático via Git do cPanel (.cpanel.yml)
+
+Se você conectar o seu GitHub diretamente no cPanel usando a ferramenta **Git Version Control** da HostGator, criamos o arquivo `.cpanel.yml` na raiz do projeto. 
+
+Ele tem as instruções para o cPanel:
+```yaml
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/cabcon35/fluxo.conscence.com.br
+    - /bin/cp -R * $DEPLOYPATH
+```
+
+**Como funciona:**
+1. No cPanel, vá em **Git Version Control**.
+2. Crie um novo repositório apontando para o seu GitHub.
+3. Quando você fizer o pull/deploy ou configurar webhooks para atualizações automáticas, o cPanel lerá o arquivo `.cpanel.yml` e copiará todos os arquivos automaticamente para a pasta apontada em `DEPLOYPATH` (`/home2/cabcon35/fluxo.conscence.com.br`).
+4. **Dica:** Se estiver usando a versão em PHP, você pode querer mudar a segunda linha do arquivo `.cpanel.yml` para `/bin/cp -R versao_php/* $DEPLOYPATH` e não esquecer de mover a logo para lá. Se for a versão de Node.js, lembre-se que precisará rodar o *npm install* e reiniciar a aplicação lá no painel.
 
 Se você hospedar o código deste projeto no **GitHub**, criamos rotinas automatizadas para que toda vez que você salvar (push) as modificações no GitHub, ele automaticamente invie a nova versão para sua conta HostGator por FTP.
 

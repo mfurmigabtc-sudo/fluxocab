@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/cabcon35/fluxo.conscence.com.br
+    - /bin/cp -R * $DEPLOYPATH
