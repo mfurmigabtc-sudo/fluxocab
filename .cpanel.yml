@@ -2,4 +2,6 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/cabcon35/fluxo.conscence.com.br
-    - /bin/cp -R * $DEPLOYPATH
+    - /bin/cp *.php $DEPLOYPATH
+    - /bin/cp *.css $DEPLOYPATH
+    - /bin/cp *.png $DEPLOYPATH
