@@ -1,0 +1,6 @@
+{
+  "name": "Editora Workflow",
+  "description": "App para gerenciar o fluxo de trabalho de edição e produção de coleções de livros, com acompanhamento de etapas e catálogo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
